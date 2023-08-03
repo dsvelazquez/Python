@@ -119,14 +119,251 @@ a, b, c  = [1, 2, 3]
 print(a,b,c)
 
 # loop through arrays
-nums = [1, 2, 3]
+nums = [1, 24, 3]
 #using index
 for i in range(len(nums)):
     print(nums[i])
 
 #without index
+for n in nums:
+    print(n)
+
+# with index and value
+for i, n in enumerate(nums):
+    print(i,n)
+
+#loop through multiple arrays simultaneously
+#with unpacking
+nums1 = [1, 3, 5]
+nums2 = [2, 4, 6]
+for n1, n2 in zip(nums1, nums2):
+    print(n1,n2)
+
+# reverse
+nums = [1,2,3]
+nums.reverse()
+print(nums)
+
+# sorting
+arr = [5, 4, 7, 3, 8]
+arr.sort()
+print(arr)
+
+#reverse sorting
+arr.sort(reverse=True)
+print(arr)
+
+arr = ["bob", "alice", "jane", "doe"]
+arr.sort()
+print(arr)
+
+#custom sort (by length of strings)
+arr.sort(key=lambda x: len(x))      # take every single value from array, call it x, return the length of x.
+print(arr)
+
+#List comprehension
+arr = [i*2 for i in range(5)] # iterate I in range(5) and adding it to i
+print(arr)
+
+# 2-D lists
+arr = [[1]*4  for i in range(4)]
+print(arr)
+
+arr[0][0] = 2
+print(arr)
+
+# Strings are similar to arrays
+s = "abc"
+print(s[0:2])
+
+s += "ABC"
+print(s)
+# but they are immutable. Cannot modify the string
+#s[0] = 'A'
+#print(s)
+
+#valid numeric strings can be converted
+print(int("123") + int("123"))
+
+#And numbers can be converted to strings
+print(str(123) + str(123))
+
+# In rare cases you may need the ASCII value fo a CHAR
+print(ord("a"))
+print(ord("b"))
+
+#Combine a list of strings ( with an empty string delimiter)
+strings = ["ab", "cd", "ef"]
+print(",".join(strings))
+
+# Queues (double ended queue) FIFO
+from collections import deque
+
+queue = deque()
+queue.append(1)
+queue.append(2)
+print(queue)
+
+queue.popleft()
+print(queue)
+
+queue.appendleft(1)
+print(queue)
+
+queue.pop()
+print(queue)
+
+#Hashset
+mySet = set()
+
+mySet.add(1)
+mySet.add(2)
+print(mySet)
+print(len(mySet))
+
+mySet.remove(2)
+print(2 in mySet)
+
+#list to set
+print(set([1,2,3]))
+
+#Set comprehension
+mySet = {i for i in range(5)}
+print(mySet)
+
+#HashMap (aka dict)
+myMap = {}
+myMap["alice"] = 88
+myMap["bob"] = 77
+print(myMap)
+print(len(myMap))
+
+myMap["alice"] = 80
+print(myMap["alice"])
+
+print("alice" in myMap)
+myMap.pop("alice")
+print("alice" in myMap)
+
+myMap = {"alice": 90, "bob": 70}
+print(myMap)
+
+#Dictionary Comprehension
+myMap = {i: 2*i for i in range(3)} # looping i in range 3. Mapping i to 2*i
+print(myMap)
+
+# Looping through maps
+myMap = { "alice": 90, "bob": 70}
+for key in myMap:
+    print(key, myMap[key])
+
+for val in myMap.values():
+    print(val)
+
+for key, val in myMap.items():
+    print(key, val)
+
+#tuples are like arrays but immutable
+tup = (1, 2, 3)
+print(tup)
+print(tup[0])
+print(tup[-1])
+
+#cant modify
+#tup[0] = 0
+
+# Can be used as key for hash map/set
+myMap = {(1,2): 3}  #maps (1,2) to key value 3
+print(myMap[(1,2)])
+
+mySet = set()
+mySet.add((1,2))
+print((1, 2) in mySet)
+
+#Lists can't be keys
+#myMap[[ 3, 4]] = 5
+
+#Heaps
+import heapq
+# under the hood, they are simply arrays
+minHeap = []
+heapq.heappush(minHeap,3)
+heapq.heappush(minHeap,2)
+heapq.heappush(minHeap, 4)
+
+#Min is always at index 0
+print(minHeap[0])
+
+while len(minHeap): # while length of minHeap is not zero
+    print(heapq.heappop(minHeap))
+
+# No max heaps by defaults, work around is to use min heap and multiply by -1 when push & pop
+maxHeap = []
+heapq.heappush(maxHeap, -3)
+
+#max is always at index 0
+print(-1 * maxHeap[0])
+
+while len(maxHeap):
+    print(-1 * heapq.heappop(maxHeap))
+
+#build heap from initial values
+arr = [2, 1, 8, 4, 5]
+heapq.heapify(arr)
+print("H: " + str(arr[4]))
+while arr:
+    print(heapq.heappop(arr)) #print from smallest to largest
 
 
+# Functions
+def myFunc(n,m):
+    return n * m
 
+print(myFunc(3,4))
+
+# Nested functions have access to outer variables
+def outer(a, b):
+    c = "c"
+
+    def inner():
+        return a + b + c
+    return inner()
+
+print(outer("a", "b"))
+
+#Can modify objects but not reassign unless using nonlocal keyword
+def double(arr, val):
+    def helper():
+        #Modifying array works
+        for i, n in enumerate(arr):
+            arr[i] *= 2
+        
+        #will only modify val in the helper scope
+        #val *= 2
+        
+        # this will modify val outside helper scope
+        nonlocal val
+        val *= 2
+    helper()
+    print(arr, val)
+
+nums = [1, 2]
+val = 3
+double(nums, val)
+
+# CLASSES
+class MyClass:
+    #Constructor
+    def __init__(self, nums):
+        #create member variables
+        self.nums = nums
+        self.size = len(nums)
+
+    # self key word required as param
+    def getLength(self):
+        return self.size
+
+    def getDoubleLength(self):
+        return 2 * self.getLength()
 
 
